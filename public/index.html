@@ -3,64 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI English Interviewer</title>
+  <title>AI English Interviewer (Python SPA)</title>
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- PyScript CSS & JS -->
+  <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
+  <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+
+  <!-- Marked.js para formatear Markdown en el Chat -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- PDF.js para lectura de PDF en cliente -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans">
   
-  <!-- Header -->
   <header class="border-b border-slate-800 bg-slate-950 p-4 shadow-sm">
     <div class="max-w-4xl mx-auto flex justify-between items-center">
-      <h1 class="text-xl font-bold tracking-wide text-indigo-400">Mock Interviewer AI</h1>
-      <span id="status-badge" class="px-3 py-1 text-xs rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">Cargando contexto PDF...</span>
+      <h1 class="text-xl font-bold tracking-wide text-indigo-400">Mock Interviewer AI (Python)</h1>
+      <span id="status-badge" class="px-3 py-1 text-xs rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">Cargando entorno Python...</span>
     </div>
   </header>
 
   <main class="flex-1 max-w-4xl w-full mx-auto p-4 flex flex-col gap-4">
     
-    <!-- Config Step: Only API Key -->
+    <!-- Step: API Key -->
     <section id="config-section" class="bg-slate-800/50 border border-slate-700 rounded-xl p-6 space-y-6">
-      
       <div>
         <h2 class="text-lg font-medium mb-1">1. Contexto de la Entrevista</h2>
-        <p class="text-xs text-slate-400">Perfil cargado automáticamente: <strong class="text-indigo-300">contexto.pdf (Automation & AI Developer)</strong></p>
+        <p class="text-xs text-slate-400">Perfil precargado: <strong class="text-indigo-300">contexto.pdf</strong></p>
       </div>
 
       <hr class="border-slate-700/50">
 
-      <!-- API Key Input -->
       <div>
         <h2 class="text-lg font-medium mb-1">2. Ingresa tu API Key de Google AI Studio</h2>
-        <p class="text-xs text-slate-400 mb-3">La clave se almacena únicamente en el almacenamiento local (localStorage) de tu navegador.</p>
+        <p class="text-xs text-slate-400 mb-3">La clave se procesa en el cliente con Python.</p>
         <div class="flex gap-2">
           <input type="password" id="api-key-input" placeholder="AIzaSy..." class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 focus:outline-none focus:border-indigo-500 text-sm">
-          <button id="save-key-btn" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+          <button id="save-key-btn" py-click="guardar_key" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
             Guardar Key
           </button>
         </div>
       </div>
 
-      <button id="start-btn" disabled class="w-full bg-emerald-600 disabled:bg-slate-700 disabled:text-slate-500 hover:bg-emerald-500 text-white font-medium py-3 rounded-lg transition-colors text-sm">
+      <button id="start-btn" py-click="iniciar_entrevista" disabled class="w-full bg-emerald-600 disabled:bg-slate-700 disabled:text-slate-500 hover:bg-emerald-500 text-white font-medium py-3 rounded-lg transition-colors text-sm">
         Iniciar Entrevista
       </button>
     </section>
 
     <!-- Chat Area -->
     <section id="chat-section" class="flex-1 bg-slate-950 border border-slate-800 rounded-xl flex flex-col hidden overflow-hidden h-[550px]">
-      
-      <!-- Chat Messages -->
       <div id="chat-box" class="flex-1 p-4 overflow-y-auto space-y-4 text-sm"></div>
 
-      <!-- Controls & Metrics -->
       <div class="border-t border-slate-800 p-3 bg-slate-900/50">
         <div id="metrics" class="text-xs text-slate-500 mb-2 flex gap-4 hidden">
-          <span>⏱️ Latencia (TTFT): <strong id="ttft-val" class="text-slate-300">0 s</strong></span>
-          <span>⏱️ Tiempo total: <strong id="total-val" class="text-slate-300">0 s</strong></span>
+          <span>⏱️ Tiempo de respuesta: <strong id="total-val" class="text-slate-300">0 s</strong></span>
         </div>
-        <form id="chat-form" class="flex gap-2">
+        <form id="chat-form" onsubmit="return false;" class="flex gap-2">
           <input type="text" id="user-input" autocomplete="off" placeholder="Type your answer in English..." class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 focus:outline-none focus:border-indigo-500">
-          <button type="submit" id="send-btn" class="bg-indigo-600 hover:bg-indigo-500 px-5 py-2 rounded-lg font-medium transition-colors text-sm">
+          <button id="send-btn" py-click="enviar_mensaje" class="bg-indigo-600 hover:bg-indigo-500 px-5 py-2 rounded-lg font-medium transition-colors text-sm">
             Enviar
           </button>
         </form>
@@ -69,6 +71,8 @@
 
   </main>
 
-  <script type="module" src="app.js"></script>
+  <script type="py" config='{"packages": ["google-genai", "pypdf"]}'>
+    from main import *
+  </script>
 </body>
 </html>
