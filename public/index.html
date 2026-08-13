@@ -12,53 +12,103 @@
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans">
   
+  <!-- Header -->
   <header class="border-b border-slate-800 bg-slate-950 p-4 shadow-sm">
     <div class="max-w-4xl mx-auto flex justify-between items-center">
-      <h1 class="text-xl font-bold tracking-wide text-indigo-400">Mock Interviewer AI</h1>
+      <div class="flex items-center gap-2">
+        <span class="text-xl">🎙️</span>
+        <h1 class="text-xl font-bold tracking-wide text-indigo-400">Mock Interviewer AI</h1>
+      </div>
       <span id="status-badge" class="px-3 py-1 text-xs rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">Cargando contexto PDF...</span>
     </div>
   </header>
 
-  <main class="flex-1 max-w-4xl w-full mx-auto p-4 flex flex-col gap-4">
+  <main class="flex-1 max-w-4xl w-full mx-auto p-4 flex flex-col gap-6">
     
-    <!-- Config Step: API Key -->
-    <section id="config-section" class="bg-slate-800/50 border border-slate-700 rounded-xl p-6 space-y-6">
+    <!-- Config & Instruction Dashboard -->
+    <section id="config-section" class="bg-slate-800/50 border border-slate-700 rounded-2xl p-6 md:p-8 space-y-6 shadow-xl">
+      
+      <!-- Banner de Bienvenida -->
       <div>
-        <h2 class="text-lg font-medium mb-1">1. Contexto de la Entrevista</h2>
-        <p class="text-xs text-slate-400">Perfil cargado automáticamente: <strong class="text-indigo-300">contexto.pdf</strong></p>
+        <h2 class="text-2xl font-bold text-white mb-2">Simulador de Entrevistas Técnicas en Inglés</h2>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Practica tu fluidez, vocabulario técnico y confianza para vacantes <strong>Remote / Semi-Senior AI & Automation Developer</strong>. La IA actuará como reclutador técnico de Big Tech y te evaluará pregunta a pregunta.
+        </p>
       </div>
 
-      <hr class="border-slate-700/50">
+      <hr class="border-slate-700/60">
 
+      <!-- Pasos de Uso (Grid 3 columnas) -->
       <div>
-        <h2 class="text-lg font-medium mb-1">2. Ingresa tu API Key de Google AI Studio</h2>
-        <p class="text-xs text-slate-400 mb-3">La clave se guarda localmente en el navegador.</p>
-        <div class="flex gap-2">
-          <input type="password" id="api-key-input" placeholder="AIzaSy..." class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 focus:outline-none focus:border-indigo-500 text-sm">
-          <button id="save-key-btn" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-indigo-400 mb-4">Instrucciones de Uso</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          
+          <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl flex flex-col gap-2">
+            <span class="w-7 h-7 bg-indigo-500/20 text-indigo-400 rounded-lg flex items-center justify-center font-bold text-sm">1</span>
+            <h4 class="font-medium text-slate-200 text-sm">Contexto Cargado</h4>
+            <p class="text-xs text-slate-400">El sistema utiliza internamente la descripción de cargo de <code class="bg-slate-800 px-1 py-0.5 rounded text-indigo-300">contexto.pdf</code>.</p>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl flex flex-col gap-2">
+            <span class="w-7 h-7 bg-indigo-500/20 text-indigo-400 rounded-lg flex items-center justify-center font-bold text-sm">2</span>
+            <h4 class="font-medium text-slate-200 text-sm">Ingresa tu API Key</h4>
+            <p class="text-xs text-slate-400">Usa tu clave de Google AI Studio. <strong>No se almacena en servidores externos</strong>, solo en tu navegador.</p>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl flex flex-col gap-2">
+            <span class="w-7 h-7 bg-indigo-500/20 text-indigo-400 rounded-lg flex items-center justify-center font-bold text-sm">3</span>
+            <h4 class="font-medium text-slate-200 text-sm">Responde en Inglés</h4>
+            <p class="text-xs text-slate-400">Recibirás feedback en tiempo real sobre tu gramática, nivel de inglés (target C1) y la siguiente pregunta.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tips de Entrevista -->
+      <div class="bg-indigo-950/40 border border-indigo-900/50 rounded-xl p-4 text-xs text-indigo-200/90 space-y-1">
+        <p class="font-semibold text-indigo-300">💡 Consejos para la sesión:</p>
+        <ul class="list-disc list-inside space-y-1 text-slate-300">
+          <li>Responde con el mayor detalle posible usando terminología técnica adecuada.</li>
+          <li>Aprovecha las correcciones del feedback para reestructurar tus respuestas futuras.</li>
+          <li>Puedes escribir <code class="bg-slate-800 px-1 rounded text-indigo-300">exit</code> en el chat cuando desees finalizar.</li>
+        </ul>
+      </div>
+
+      <!-- Configuración de API Key e Inicio -->
+      <div class="space-y-4 pt-2">
+        <label for="api-key-input" class="block text-sm font-medium text-slate-200">
+          Google AI Studio API Key:
+        </label>
+        
+        <div class="flex flex-col sm:flex-row gap-2">
+          <input type="password" id="api-key-input" placeholder="AIzaSy..." class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-100 focus:outline-none focus:border-indigo-500 text-sm">
+          <button id="save-key-btn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-5 py-2.5 rounded-lg text-sm font-medium transition-colors border border-slate-700">
             Guardar Key
           </button>
         </div>
+
+        <button id="start-btn" disabled class="w-full bg-emerald-600 disabled:bg-slate-800 disabled:text-slate-500 disabled:border-slate-700 hover:bg-emerald-500 text-white font-medium py-3 rounded-lg transition-colors text-sm shadow-lg mt-4">
+          Iniciar Entrevista
+        </button>
       </div>
 
-      <button id="start-btn" disabled class="w-full bg-emerald-600 disabled:bg-slate-700 disabled:text-slate-500 hover:bg-emerald-500 text-white font-medium py-3 rounded-lg transition-colors text-sm">
-        Iniciar Entrevista
-      </button>
     </section>
 
     <!-- Chat Area -->
-    <section id="chat-section" class="flex-1 bg-slate-950 border border-slate-800 rounded-xl flex flex-col hidden overflow-hidden h-[550px]">
+    <section id="chat-section" class="flex-1 bg-slate-950 border border-slate-800 rounded-2xl flex flex-col hidden overflow-hidden h-[580px] shadow-xl">
       
-      <div id="chat-box" class="flex-1 p-4 overflow-y-auto space-y-4 text-sm"></div>
+      <!-- Mensajes del Chat -->
+      <div id="chat-box" class="flex-1 p-4 md:p-6 overflow-y-auto space-y-4 text-sm"></div>
 
+      <!-- Controles & Métricas -->
       <div class="border-t border-slate-800 p-3 bg-slate-900/50">
         <div id="metrics" class="text-xs text-slate-500 mb-2 flex gap-4 hidden">
-          <span>⏱️ Latencia (TTFT): <strong id="ttft-val" class="text-slate-300">0 s</strong></span>
+          <span>⏱️ TTFT: <strong id="ttft-val" class="text-slate-300">0 s</strong></span>
           <span>⏱️ Tiempo total: <strong id="total-val" class="text-slate-300">0 s</strong></span>
         </div>
         <form id="chat-form" class="flex gap-2">
-          <input type="text" id="user-input" autocomplete="off" placeholder="Type your answer in English..." class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 focus:outline-none focus:border-indigo-500">
-          <button type="submit" id="send-btn" class="bg-indigo-600 hover:bg-indigo-500 px-5 py-2 rounded-lg font-medium transition-colors text-sm">
+          <input type="text" id="user-input" autocomplete="off" placeholder="Type your response in English..." class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-100 focus:outline-none focus:border-indigo-500 text-sm">
+          <button type="submit" id="send-btn" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-2.5 rounded-lg font-medium transition-colors text-sm">
             Enviar
           </button>
         </form>
