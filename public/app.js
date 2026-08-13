@@ -151,7 +151,7 @@ startBtn.addEventListener('click', async () => {
 
     // CORRECCIÓN SDK: Modelo oficial corregido
     chatSession = ai.chats.create({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-1.5-pro',
       config: { systemInstruction }
     });
 
