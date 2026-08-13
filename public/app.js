@@ -86,7 +86,7 @@ startBtn.addEventListener('click', async () => {
     `;
 
     chatSession = ai.chats.create({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3.5-flash',
       config: { systemInstruction }
     });
 
