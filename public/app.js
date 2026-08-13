@@ -173,7 +173,16 @@ async function sendMessage(text) {
     messageElement.textContent = `Error: ${err.message}`;
   }
 }
-
+function checkReadyToStart() {
+  if (apiKey && pdfContext) {
+    startBtn.disabled = false;
+    statusBadge.textContent = 'Todo listo ✓';
+    statusBadge.className = 'px-3 py-1 text-xs rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+  } else if (!apiKey && pdfContext) {
+    statusBadge.textContent = 'Ingresa tu API Key';
+    statusBadge.className = 'px-3 py-1 text-xs rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20';
+  }
+}
 function appendMessage(sender, text) {
   const msgDiv = document.createElement('div');
   const bubble = document.createElement('div');
