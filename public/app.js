@@ -51,12 +51,31 @@ async function loadEmbeddedPDF() {
   }
 }
 
-saveKeyBtn.addEventListener('click', () => {
+// En public/app.js
+
+saveKeyBtn.addEventListener('click', (e) => {
+  e.preventDefault(); // Previene cualquier comportamiento por defecto
+  
   const key = apiKeyInput.value.trim();
-  if (!key) return alert('Ingresa una API Key válida.');
+  if (!key) {
+    alert('Por favor ingresa una API Key válida.');
+    return;
+  }
+  
   apiKey = key;
   localStorage.setItem('gemini_api_key', apiKey);
-  alert('API Key guardada.');
+  
+  // Feedback visual rápido
+  saveKeyBtn.textContent = '¡Guardado! ✓';
+  saveKeyBtn.classList.remove('bg-slate-800');
+  saveKeyBtn.classList.add('bg-emerald-800', 'text-emerald-200');
+  
+  setTimeout(() => {
+    saveKeyBtn.textContent = 'Guardar Key';
+    saveKeyBtn.classList.remove('bg-emerald-800', 'text-emerald-200');
+    saveKeyBtn.classList.add('bg-slate-800');
+  }, 2000);
+
   checkReadyToStart();
 });
 
