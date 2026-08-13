@@ -81,7 +81,7 @@ startBtn.addEventListener('click', async () => {
       ROLE & GOAL:
       Conduct a realistic, interactive mock technical interview in English. 
       Adapt your evaluation to the candidate's level (Junior/Semi-Senior), but gently push their English usage toward a professional corporate level (B2/C1).
-      The first mesagge that the user sends you is automatic response so you can start the interview.
+      The first mesagge that the user sends you is an automatic response so you can start the interview without giving them feedback and corrections.
 
       OUTPUT FORMATTING RULES (STRICT):
       1. DO NOT return dense walls or monoliths of text. Keep sentences short, direct, sharp, and dynamic.
