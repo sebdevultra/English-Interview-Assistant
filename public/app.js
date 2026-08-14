@@ -13,8 +13,12 @@ let chatSession = null;
 let currentAiClient = null;
 let currentSystemInstruction = '';
 let isSpeechEnabled = true;
-let currentActiveStopBtn = null;
+let currentActiveStopSpeechBtn = null;
 let sessionHistory = []; // Almacena el historial para persistencia
+
+// Control de Generación / Pensamiento de la IA
+let isGenerating = false;
+let shouldStopGeneration = false;
 
 // Estado de Grabación de Audio Multimodal (MediaRecorder)
 let mediaRecorder = null;
@@ -72,11 +76,6 @@ const closeModalBtn = document.getElementById('close-modal-btn');
 const cancelModalBtn = document.getElementById('cancel-modal-btn');
 const saveModalKeyBtn = document.getElementById('save-modal-key-btn');
 
-// Cargar API Key inicial si existe
-if (apiKey) {
-  apiKeyInput.value = apiKey;
-}
-
 // -------------------------------------------------------------
 // 1. UTILIDADES DE CONVERSIÓN BINARIA / AUDIO
 // -------------------------------------------------------------
@@ -131,7 +130,7 @@ async function loadDefaultPDF() {
     }
     checkReadyToStart();
     
-    // Verificar si hay sesión previa guardada para restaurar
+    // Verificar y restaurar sesión si existe
     restoreSessionIfAvailable();
   } catch (err) {
     statusBadge.textContent = 'Error al cargar PDF';
@@ -338,8 +337,8 @@ function restoreSessionIfAvailable() {
           parts: [{ text: item.text || '[Spoken Audio Response]' }]
         });
       } else {
-        const { contentElement, stopBtn, replayBtn } = appendMessage('model', item.text);
-        replayBtn.addEventListener('click', () => speakText(item.text, stopBtn));
+        const { contentElement, stopSpeechBtn, replayBtn } = appendMessage('model', item.text);
+        replayBtn.addEventListener('click', () => speakText(item.text, stopSpeechBtn));
         geminiHistory.push({
           role: 'model',
           parts: [{ text: item.text }]
@@ -418,9 +417,9 @@ function stopSpeaking() {
   if (window.speechSynthesis) {
     window.speechSynthesis.cancel();
   }
-  if (currentActiveStopBtn) {
-    currentActiveStopBtn.classList.add('hidden');
-    currentActiveStopBtn = null;
+  if (currentActiveStopSpeechBtn) {
+    currentActiveStopSpeechBtn.classList.add('hidden');
+    currentActiveStopSpeechBtn = null;
   }
 }
 
@@ -451,7 +450,7 @@ function speakText(text, stopBtnElement = null) {
 
   utterance.onstart = () => {
     if (stopBtnElement) {
-      currentActiveStopBtn = stopBtnElement;
+      currentActiveStopSpeechBtn = stopBtnElement;
       stopBtnElement.classList.remove('hidden');
     }
   };
@@ -460,8 +459,8 @@ function speakText(text, stopBtnElement = null) {
     if (stopBtnElement) {
       stopBtnElement.classList.add('hidden');
     }
-    if (currentActiveStopBtn === stopBtnElement) {
-      currentActiveStopBtn = null;
+    if (currentActiveStopSpeechBtn === stopBtnElement) {
+      currentActiveStopSpeechBtn = null;
     }
   };
 
@@ -469,8 +468,8 @@ function speakText(text, stopBtnElement = null) {
     if (stopBtnElement) {
       stopBtnElement.classList.add('hidden');
     }
-    if (currentActiveStopBtn === stopBtnElement) {
-      currentActiveStopBtn = null;
+    if (currentActiveStopSpeechBtn === stopBtnElement) {
+      currentActiveStopSpeechBtn = null;
     }
   };
 
@@ -650,7 +649,7 @@ Provide structured feedback following the strict system instructions:
 
 // Función para Reenviar un Audio previamente grabado
 async function resendExistingAudio(audioBase64, audioMimeType) {
-  if (!audioBase64) return;
+  if (!audioBase64 || isGenerating) return;
 
   stopSpeaking();
   clearPendingAudio();
@@ -696,7 +695,7 @@ Provide structured feedback following the strict system instructions:
 // -------------------------------------------------------------
 function buildSystemInstruction() {
   currentSystemInstruction = `
-    You are an elite Senior Technical Recruiter and Engineering Manager from top Silicon Valley tech giants (Google, NVIDIA, Apple, Microsoft, Amazon, GitLab, Stripe).
+    You are an elite Senior Technical Recruiter and Engineering Manager from top tech giants (Google, NVIDIA, Apple, Microsoft, Amazon, GitLab, Stripe).
     You are interviewing a candidate for a remote software engineering vacancy (Automation & AI Developer / Full-stack Developer). 
     
     JOB DESCRIPTION / CONTEXT:
@@ -775,6 +774,7 @@ startBtn.addEventListener('click', async () => {
 
 // Botón 1: Generar Reporte Final y Evaluación
 generateReportBtn.addEventListener('click', async () => {
+  if (isGenerating) return;
   if (confirm('¿Deseas concluir la sesión de entrevista y generar tu reporte final de evaluación con puntaje y feedback?')) {
     appendMessage('user', 'Please conclude the interview and provide my comprehensive evaluation report.');
     sessionHistory.push({
@@ -789,6 +789,8 @@ generateReportBtn.addEventListener('click', async () => {
 // Botón 2: Salir y volver a la pantalla de inicio
 exitToHomeBtn.addEventListener('click', () => {
   if (confirm('¿Deseas salir y volver a la pantalla de configuración? (Se borrará el historial de la entrevista actual)')) {
+    shouldStopGeneration = true;
+    isGenerating = false;
     stopSpeaking();
     stopAudioRecording();
     clearPendingAudio();
@@ -808,6 +810,7 @@ exitToHomeBtn.addEventListener('click', () => {
 // Submit del formulario de chat (Texto Escrito)
 chatForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+  if (isGenerating) return;
   if (isRecording) {
     stopAudioRecording();
     return;
@@ -830,17 +833,28 @@ chatForm.addEventListener('submit', async (e) => {
   await sendMessage(text);
 });
 
-// Envío de mensajes y streaming a Gemini
+// Envío de mensajes y streaming a Gemini con opción de detención
 async function sendMessage(payload) {
-  const { contentElement, stopBtn, replayBtn } = appendMessage('model', '');
+  const { contentElement, stopSpeechBtn, stopGeneratingBtn, replayBtn } = appendMessage('model', '');
   const startTime = performance.now();
   let firstTokenTime = null;
+
+  isGenerating = true;
+  shouldStopGeneration = false;
+
+  // Mostrar botón de detención de generación mientras piensa/escribe la IA
+  stopGeneratingBtn.classList.remove('hidden');
 
   try {
     const responseStream = await chatSession.sendMessageStream({ message: payload });
 
     let fullText = '';
     for await (const chunk of responseStream) {
+      if (shouldStopGeneration) {
+        fullText += '\n\n*(Respuesta detenida por el usuario)*';
+        break;
+      }
+
       if (!firstTokenTime) {
         firstTokenTime = performance.now();
       }
@@ -858,6 +872,11 @@ async function sendMessage(payload) {
     ttftVal.textContent = `${ttft} s`;
     totalVal.textContent = `${totalTime} s`;
 
+    // Ocultar botón de cancelar generación
+    stopGeneratingBtn.classList.add('hidden');
+    isGenerating = false;
+
+    // Guardar respuesta final en historial
     sessionHistory.push({
       role: 'model',
       text: fullText
@@ -865,12 +884,17 @@ async function sendMessage(payload) {
     saveSessionToLocalStorage();
 
     replayBtn.addEventListener('click', () => {
-      speakText(fullText, stopBtn);
+      speakText(fullText, stopSpeechBtn);
     });
 
-    speakText(fullText, stopBtn);
+    // Solo hablar si el usuario no canceló la generación
+    if (!shouldStopGeneration) {
+      speakText(fullText, stopSpeechBtn);
+    }
 
   } catch (err) {
+    isGenerating = false;
+    stopGeneratingBtn.classList.add('hidden');
     console.error('Gemini Send Error:', err);
     let errMsg = err.message;
     
@@ -944,16 +968,27 @@ function appendMessage(sender, text, audioUrl = null, audioBase64 = null, audioM
     avatarLabel.className = 'text-xs font-semibold text-indigo-400 flex items-center gap-1';
     avatarLabel.innerHTML = '<span>🤖 Reclutador AI</span>';
 
-    const stopMsgBtn = document.createElement('button');
-    stopMsgBtn.type = 'button';
-    stopMsgBtn.className = 'hidden text-[11px] bg-red-950/90 hover:bg-red-900 text-red-300 hover:text-red-200 px-2 py-0.5 rounded border border-red-800/60 transition flex items-center gap-1 shadow-sm animate-pulse';
-    stopMsgBtn.innerHTML = '<span>⏹️ Detener Voz</span>';
-    stopMsgBtn.addEventListener('click', () => {
+    // Botón para detener la generación de texto / pensamiento en curso
+    const stopGenBtn = document.createElement('button');
+    stopGenBtn.type = 'button';
+    stopGenBtn.className = 'hidden text-[11px] bg-red-900/80 hover:bg-red-800 text-red-200 px-2 py-0.5 rounded border border-red-700/60 transition flex items-center gap-1 shadow-sm animate-pulse';
+    stopGenBtn.innerHTML = '<span>⏹️ Detener Respuesta</span>';
+    stopGenBtn.addEventListener('click', () => {
+      shouldStopGeneration = true;
+    });
+
+    // Botón para detener la voz hablada (TTS)
+    const stopSpeechBtn = document.createElement('button');
+    stopSpeechBtn.type = 'button';
+    stopSpeechBtn.className = 'hidden text-[11px] bg-red-950/90 hover:bg-red-900 text-red-300 hover:text-red-200 px-2 py-0.5 rounded border border-red-800/60 transition flex items-center gap-1 shadow-sm animate-pulse';
+    stopSpeechBtn.innerHTML = '<span>⏹️ Detener Voz</span>';
+    stopSpeechBtn.addEventListener('click', () => {
       stopSpeaking();
     });
 
     leftGroup.appendChild(avatarLabel);
-    leftGroup.appendChild(stopMsgBtn);
+    leftGroup.appendChild(stopGenBtn);
+    leftGroup.appendChild(stopSpeechBtn);
 
     const replayMsgBtn = document.createElement('button');
     replayMsgBtn.type = 'button';
@@ -974,9 +1009,19 @@ function appendMessage(sender, text, audioUrl = null, audioBase64 = null, audioM
     chatBox.appendChild(msgDiv);
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    return { contentElement: contentDiv, stopBtn: stopMsgBtn, replayBtn: replayMsgBtn };
+    return { contentElement: contentDiv, stopSpeechBtn, stopGeneratingBtn: stopGenBtn, replayBtn: replayMsgBtn };
   }
 }
 
-// Cargar el PDF inicial por defecto y restaurar sesión
-loadDefaultPDF();
+// -------------------------------------------------------------
+// 8. PUNTO DE ENTRADA PRINCIPAL (INITIALIZATION)
+// -------------------------------------------------------------
+async function init() {
+  if (apiKey) {
+    apiKeyInput.value = apiKey;
+  }
+  await loadDefaultPDF();
+}
+
+// Iniciar aplicación
+init();

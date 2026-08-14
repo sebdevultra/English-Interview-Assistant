@@ -154,12 +154,13 @@ El *System Instruction* instruye a Gemini a actuar simultáneamente como **Engin
    - **`📊 Generar Reporte`:** Solicita la conclusión formal de la entrevista sin borrar la pantalla, entregando nivel observado (*B1 / B2 / C1*), decisión de contratación (*Strong Hire / Hire / Needs Practice*) y plan de acción.
    - **`🏠 Salir al Inicio`:** Resetea el estado volátil, detiene audios y regresa a la selección de PDFs y modelos.
 
-4. **Doble Vía de Audio y Previsualización:**
+4. **Doble Vía de Audio, Previsualización y Control de Streaming:**
    - **Entrada (Candidato):** Grabación con previsualización, botón de escucha previa antes de enviar y descarte rápido.
-   - **Salida (Reclutador IA):** Síntesis de voz automática mediante `SpeechSynthesis` con botón `⏹️ Detener Voz` en la esquina superior izquierda de cada respuesta y `🔊 Escuchar` para repetición.
+   - **Salida (Reclutador IA):** Síntesis de voz automática mediante `SpeechSynthesis` con botón `⏹️ Detener Voz` y botón `⏹️ Detener Respuesta` mientras la IA genera texto en streaming.
+   - **Punto de Entrada `init()`:** Inicialización asíncrona estructurada que garantiza la carga limpia del PDF, variables y sesión previa.
 
-5. **Selector de Modelos Gemini 3:**
-   - Compatibilidad completa con **Gemini 3.7 Flash**, **Gemini 3.6 Flash** y **Gemini 3.5 Flash**, garantizando cero errores `404` por modelos obsoletos.
+5. **Selector de Modelos Gemini 3 y Parámetros Deterministas:**
+   - Compatibilidad completa con **Gemini 3.7 Flash**, **Gemini 3.6 Flash** y **Gemini 3.5 Flash** con parámetros de máxima rigurosidad (`temperature: 0.0`, `topP: 0.0`, `seed: 42`).
 
 ---
 
