@@ -43,6 +43,7 @@ const chatSection = document.getElementById('chat-section');
 const chatBox = document.getElementById('chat-box');
 const chatForm = document.getElementById('chat-form');
 const userInput = document.getElementById('user-input');
+const sendBtn = document.getElementById('send-btn');
 const statusBadge = document.getElementById('status-badge');
 const metrics = document.getElementById('metrics');
 const ttftVal = document.getElementById('ttft-val');
@@ -807,10 +808,31 @@ exitToHomeBtn.addEventListener('click', () => {
   }
 });
 
-// Submit del formulario de chat (Texto Escrito)
+// Gestión visual del botón de Enviar / Detener Respuesta
+function setGeneratingState(generating) {
+  isGenerating = generating;
+  if (generating) {
+    shouldStopGeneration = false;
+    if (sendBtn) {
+      sendBtn.innerHTML = '<span>⏹️ Detener Respuesta</span>';
+      sendBtn.className = 'bg-red-600 hover:bg-red-500 px-5 py-2.5 rounded-xl font-medium transition-colors text-sm shrink-0 flex items-center gap-1.5 animate-pulse text-white cursor-pointer shadow-lg shadow-red-900/40';
+    }
+  } else {
+    shouldStopGeneration = false;
+    if (sendBtn) {
+      sendBtn.innerHTML = '<span>Enviar</span>';
+      sendBtn.className = 'bg-indigo-600 hover:bg-indigo-500 px-6 py-2.5 rounded-xl font-medium transition-colors text-sm shrink-0 flex items-center gap-1 text-white';
+    }
+  }
+}
+
+// Submit del formulario de chat (Texto Escrito o Detención)
 chatForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  if (isGenerating) return;
+  if (isGenerating) {
+    shouldStopGeneration = true;
+    return;
+  }
   if (isRecording) {
     stopAudioRecording();
     return;
@@ -839,10 +861,7 @@ async function sendMessage(payload) {
   const startTime = performance.now();
   let firstTokenTime = null;
 
-  isGenerating = true;
-  shouldStopGeneration = false;
-
-  // Mostrar botón de detención de generación mientras piensa/escribe la IA
+  setGeneratingState(true);
   stopGeneratingBtn.classList.remove('hidden');
 
   try {
@@ -872,9 +891,9 @@ async function sendMessage(payload) {
     ttftVal.textContent = `${ttft} s`;
     totalVal.textContent = `${totalTime} s`;
 
-    // Ocultar botón de cancelar generación
+    // Restaurar estado
     stopGeneratingBtn.classList.add('hidden');
-    isGenerating = false;
+    setGeneratingState(false);
 
     // Guardar respuesta final en historial
     sessionHistory.push({
@@ -893,7 +912,7 @@ async function sendMessage(payload) {
     }
 
   } catch (err) {
-    isGenerating = false;
+    setGeneratingState(false);
     stopGeneratingBtn.classList.add('hidden');
     console.error('Gemini Send Error:', err);
     let errMsg = err.message;
