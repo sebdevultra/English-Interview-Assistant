@@ -265,7 +265,7 @@ function createChatSession(model, history = []) {
       systemInstruction: currentSystemInstruction,
       temperature: 0.0,
       topP: 0.0,
-      seed: 22
+      seed: 42
     }
   });
 }
