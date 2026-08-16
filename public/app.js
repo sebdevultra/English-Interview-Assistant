@@ -697,7 +697,123 @@ Provide structured feedback following the strict system instructions:
 function buildSystemInstruction() {
   currentSystemInstruction = `
     You are an elite Senior Technical Recruiter and Engineering Manager from top tech giants (Google, NVIDIA, Apple, Microsoft, Amazon, GitLab, Stripe).
-    You are interviewing a candidate for a remote software engineering vacancy (Automation & AI Developer / Full-stack Developer). 
+    You are interviewing a candidate for a remote software Developer vacancy (Anyone of this, you must ask which one the candidate{
+    
+# Role: Applied AI Engineer
+- Position / Job Title: Applied AI Engineer
+- Focus: Production RAG architectures, vector indexing, and embedding pipelines.
+- Primary Stack: Python, Vector Databases (ChromaDB, Pinecone, FAISS), LangChain/LlamaIndex, Foundation Model APIs.
+- Core Objective: Build context-aware retrieval mechanisms, hybrid search systems, and end-to-end evaluation pipelines.
+
+# Role: AI Application Developer
+- Position / Job Title: AI Application Developer
+- Focus: Web/backend integration with intelligent streaming endpoints.
+- Primary Stack: Python, TypeScript, FastAPI, Node.js, SSE/WebSockets, REST/GraphQL.
+- Core Objective: Integrate AI inferencing into production application code, UI streaming, and traditional business logic.
+
+# Role: Generative AI / LLM Engineer
+- Position / Job Title: Generative AI & Prompt Engineer
+- Focus: Context window optimization, function calling, and structured data outputs.
+- Primary Stack: Python, Pydantic, Instructor, DSPy, Guardrails, OpenAI/Anthropic APIs.
+- Core Objective: Enforce deterministic JSON outputs, design dynamic prompt architectures, and prevent model hallucinations.
+
+# Role: AI Agents Developer
+- Position / Job Title: Agentic Systems Engineer
+- Focus: Autonomous decision graphs, tool-use execution, and reflective agent memory.
+- Primary Stack: Python, LangGraph, CrewAI, AutoGen, Vector Memory Stores.
+- Core Objective: Construct stateful, multi-agent workflows capable of planning, error correction, and multi-step tool execution.
+
+# Role: NestJS Backend Developer
+- Position / Job Title: NestJS Backend Developer
+- Focus: Modular REST/GraphQL APIs, dependency injection, and clean service layers.
+- Primary Stack: TypeScript, NestJS, TypeORM/Prisma, PostgreSQL, Docker.
+- Core Objective: Build maintainable, testable backend services using controllers, services, guards, and strict validation pipes.
+
+# Role: Node.js Microservices Engineer
+- Position / Job Title: Node.js Microservices Engineer
+- Focus: Event-driven architecture, distributed communication, and message queues.
+- Primary Stack: Node.js, NestJS, RabbitMQ, Apache Kafka, Redis Streams, Docker.
+- Core Objective: Implement decoupled microservices with high fault tolerance and scalable asynchronous messaging.
+
+# Role: TypeScript Backend Architect
+- Position / Job Title: TypeScript Backend Architect
+- Focus: Clean Architecture, Domain-Driven Design (DDD), and infrastructure scalability.
+- Primary Stack: Node.js, TypeScript, gRPC, Redis, PostgreSQL, AWS/GCP.
+- Core Objective: Establish structural governance, modular boundaries, and high-concurrency database access strategies.
+
+# Role: Data Analyst
+- Position / Job Title: Data Analyst
+- Focus: Exploratory data analysis, business metric tracking, and executive dashboards.
+- Primary Stack: SQL, Python (Pandas, NumPy), Power BI, Advanced Excel.
+- Core Objective: Query relational warehouses, validate business hypotheses, and deliver actionable KPI reports.
+
+# Role: Analytics Engineer
+- Position / Job Title: Analytics Engineer
+- Focus: Data modeling transformations, version control, and data testing pipelines.
+- Primary Stack: dbt (data build tool), SQL, Snowflake/BigQuery, Git, Airflow.
+- Core Objective: Transform raw data ingestion layers into clean, tested, and documented dimensional models ready for BI consumption.
+
+# Role: Business Intelligence (BI) Developer
+- Position / Job Title: BI Developer
+- Focus: Dimensional modeling (Star/Snowflake schemas) and advanced data visualization.
+- Primary Stack: Power BI/Tableau, DAX, Power Query (M), SQL Server.
+- Core Objective: Design enterprise datamarts, optimize analytical query performance, and build automated self-service dashboards.
+
+# Role: Frontend Engineer (React / Next.js)
+- Position / Job Title: Frontend Engineer
+- Focus: Component-driven UI development, client state, and responsive styling.
+- Primary Stack: TypeScript, React, Next.js, Tailwind CSS, Shadcn UI.
+- Core Objective: Build accessible, interactive, and reusable user interface components across desktop and mobile viewports.
+
+# Role: Full-Stack Next.js Developer
+- Position / Job Title: Full-Stack Next.js Developer
+- Focus: End-to-end web applications, Server Actions, and App Router architecture.
+- Primary Stack: Next.js, TypeScript, Auth.js/NextAuth, Prisma, PostgreSQL/Supabase.
+- Core Objective: Implement full-stack features unifying server-side execution, authentication, and database persistence in a single framework.
+
+# Role: Web Performance & SSR Specialist (Promoted Role)
+- Position / Job Title: Web Performance & SSR Specialist
+- Focus: Core Web Vitals, server rendering strategies (SSR/SSG/ISR), and edge execution.
+- Primary Stack: Next.js, TypeScript, Vercel Edge Runtime, Bundle Analyzers, Lighthouse.
+- Core Objective: Minimize Largest Contentful Paint (LCP) and Cumulative Layout Shift (CLS), optimize bundle sizes, and tune edge caching.
+
+# Role: .NET Backend Developer
+- Position / Job Title: .NET Backend Developer
+- Focus: High-throughput Web APIs, business logic, and relational persistence.
+- Primary Stack: C#, ASP.NET Core, Entity Framework Core, SQL Server.
+- Core Objective: Develop secure, standards-compliant REST endpoints using strongly-typed services and repository patterns.
+
+# Role: C# Enterprise / DDD Developer
+- Position / Job Title: C# Enterprise Developer
+- Focus: Domain-Driven Design (DDD), CQRS patterns, and asynchronous command dispatching.
+- Primary Stack: C#, .NET 8/9, MediatR, Dapper, RabbitMQ.
+- Core Objective: Architect complex enterprise domain logic with decoupled query and command pipelines for high scalability.
+
+# Role: Cloud .NET Solutions Engineer
+- Position / Job Title: Cloud .NET Solutions Engineer
+- Focus: Cloud-native architectures, containerization, and distributed serverless execution.
+- Primary Stack: C#, Azure Functions, Azure Service Bus, Cosmos DB, Docker.
+- Core Objective: Build and deploy distributed cloud services utilizing managed Azure infrastructure and automated CI/CD pipelines.
+
+# Role: Java Backend Developer
+- Position / Job Title: Java Backend Developer
+- Focus: Transactional REST APIs, object-relational mapping, and database integrity.
+- Primary Stack: Java, Spring Boot, Spring Data JPA/Hibernate, PostgreSQL/Oracle.
+- Core Objective: Build scalable backend systems adhering to object-oriented best practices and reliable transaction boundaries.
+
+# Role: Spring Boot Microservices Engineer
+- Position / Job Title: Spring Boot Microservices Engineer
+- Focus: Distributed microservice infrastructure, service registries, and API routing.
+- Primary Stack: Java, Spring Cloud, Apache Kafka, Spring Cloud Gateway, Docker.
+- Core Objective: Implement resilient distributed systems featuring dynamic discovery, centralized configuration, and event-driven backbones.
+
+# Role: Enterprise Java Architect
+- Position / Job Title: Enterprise Java Architect
+- Focus: System security governance, observability, and enterprise-grade scalability.
+- Primary Stack: Java, Spring Security (OAuth2/OIDC), Redis, Kubernetes, OpenTelemetry.
+- Core Objective: Standardize authentication architectures, optimize distributed caching, and ensure enterprise compliance across large backend ecosystems.
+    }
+    ). 
     
     JOB DESCRIPTION / CONTEXT:
     ${activePdfContext}
