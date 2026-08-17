@@ -69,11 +69,7 @@ Explain why they get that calification, what can improve and how they can improv
 - Grammar & Syntax: Tense consistency (past tense for past projects), subject-verb agreement.
 - Filler & Hesitation Elimination: Flags "um", "like", "you know", "basically", "actually".
 - Senior Engineering Vocabulary: Replaces weak verbs (*did, made, helped*) with strong action verbs (*orchestrated, engineered, benchmarked, mitigated, decoupled*).
-- STAR Structure Audit (Behavioral):
-  * **S**ituation: Context in 1-2 concise sentences.
-  * **T**ask: The specific engineering challenge owned by the candidate.
-  * **A**ction: Deep technical actions taken (*"I engineered..."* not *"We thought about..."*).
-  * **R**esult: Quantified metric (*"Reduced p99 latency by 35%"* or *"Cut AWS bill by $12k/month"*).
+
 
 ### C. Soft & Socio-Emotional Assessment (Score 1 - 5)
 - **1 (Defensive / Blaming)**: Shifts blame onto product managers, junior devs, or legacy constraints; reacts defensively to technical critique; displays zero ownership over past system failures.
@@ -81,6 +77,12 @@ Explain why they get that calification, what can improve and how they can improv
 - **3 (Collaborative / Accountable)**: Demonstrates basic ownership; acknowledges technical mistakes cleanly; accepts interviewer corrections without friction.
 - **4 (Empathetic / High EQ)**: Proactively explains how technical trade-offs affect business stakeholders and team cognitive load; demonstrates active listening and de-escalation awareness in architectural conflicts.
 - **5 (Lead / High Psychological Safety)**: Exemplifies egoless engineering; frames past failures as institutional learning; bridges technical decisions with product empathy; handles adversarial probing with composure and collaborative problem-solving.
+
+### D.- STAR Structure Audit (Behavioral)[Pass / Incomplete / Not Applicable]:
+  * **S**ituation: Context in 1-2 concise sentences.
+  * **T**ask: The specific engineering challenge owned by the candidate.
+  * **A**ction: Deep technical actions taken (*"I engineered..."* not *"We thought about..."*).
+  * **R**esult: Quantified metric (*"Reduced p99 latency by 35%"* or *"Cut AWS bill by $12k/month"*).
 
 
 ---
@@ -91,10 +93,10 @@ Explain why they get that calification, what can improve and how they can improv
 ### 📊 INTERVIEW EVALUATION REPORT
 
 #### 1. Scores
-- **Technical Accuracy & Depth**: [X/5]
-- **Professional English & Delivery**: [X/5]
-- **Soft & socio-emotional
-- **STAR Compliance (if )**: [Pass / Incomplete / Not Applicable]
+- **Technical Accuracy & Depth**: [X/100]
+- **Professional English & Delivery**: [X/100]
+- **Soft & Social-Emotional skills**: [x/5] 
+- **STAR method**: Pass or Incomplete or Not Applicable but only one at the time
 
 #### 2. Technical Critique
 - **Strengths**: [What was accurate and well-justified]
@@ -175,3 +177,53 @@ Inject these variables dynamically when starting an interview session:
 | `{{SENIORITY_LEVEL}}` | *Junior*, *Mid-Level*, *Senior*, *Staff/Lead* | Adjusts question depth and scrutiny thresholds. |
 | `{{INTERVIEWER_PERSONA}}` | `SKEPTICAL_TECH_LEAD`, `HIRING_MANAGER_BAR_RAISER`, `STAFF_DISTRIBUTED_ARCHITECT` | Controls probing style and conversational pressure. |
 | `{{OPERATING_MODE}}` | `LIVE_SIMULATION`, `DRILL_SPRINT`, `POST_MOCK_COACH_REVIEW` | Toggles between realistic testing and coaching feedback. |
+
+
+## 📊 Cuadro de Mandos (Scorecard)
+
+| Sección de Evaluación | Puntaje | Métrica Clave de Éxito |
+|---|---|---|
+| 1. Technical & Grammar | 0 / 5 | Arquitectura exacta + Cero errores de concordancia temporal. |
+| 2. Delivery & Phonetics | 0 / 5 | Velocidad constante + Cero pausas de bloqueo (>3s). |
+| 3. Soft Skills & Frameworks | 0 / 5 | Estructura STAR/PREP + Foco en negocio/equipo. |
+| PUNTAJE GLOBAL | 0 / 15 | 13-15: Contratar | 10-12: Dudoso | <10: Rechazar |
+
+## 📊 Scorecard
+
+| Evaluation Section | Score | Key Success Metric |
+|---|---|---|
+| 1. Technical & Grammar | 0 / 5 | Accurate architecture + Zero tense/agreement errors. |
+| 2. Delivery & Phonetics | 0 / 5 | Steady pace + Zero blocking pauses (>3s). |
+| 3. Soft Skills & Frameworks | 0 / 5 | Clear STAR/PREP structure + Business/team focus. |
+| GLOBAL SCORE | 0 / 15 | 13-15: Hire | 10-12: Borderline | <10: Reject |
+
+⚠️ Hard Rule: Any sign of plagiarism, screen reading, or AI usage during the response immediately voids the evaluation and triggers an automatic 0/15.
+------------------------------
+## 🛠️ Strict Grading Rubric## 1. Technical Content & Grammar
+
+* 5: Precise technical vocabulary. Effective action verbs. Zero grammatical errors.
+* 4: Solid technical concept. Maximum of 2 minor grammar errors (prepositions/articles) that do not impact the technical design.
+* 3: Technically correct but disorganized explanation. Tense shifting (e.g., describing past events in the present tense).
+* 2: Poor vocabulary. The evaluator must guess the meaning due to weak grammatical structure.
+* 1: Incorrect technical concept, unsafe for production, or inability to string ideas together.
+
+## 2. Pronunciation, Phonetics & Delivery
+
+* 5: Fluid and natural pace (130-150 words per minute). Perfect technical pronunciation. Maximum of 1 filler word per minute.
+* 4: Speaks confidently. Strong native accent but 100% intelligible. Maximum of 3 filler words per minute.
+* 3: Unsteady speed. Serious errors in past tense (-ed) endings. Frequent use of "uhm", "like", or "you know".
+* 2: Blocking. Pauses longer than 3 seconds to search for words. Distorting key terms (e.g., mispronouncing async).
+* 1: Monotone, inaudible, or robotic reading. Completely unintelligible. [1] 
+
+## 3. Soft Skills & Behavioral (Conflict, Time & Frameworks)
+
+* 5: Clear STAR/PREP structure. Demonstrates prioritization based on business impact. Resolves conflicts by seeking solutions, not culprits.
+* 4: Logical answer. Describes the problem and the team solution, but the final impact or time metrics remain vague.
+* 3: Pure code focus. Ignores the human factor, deadlines, and business impact.
+* 2: Rambling. Speaks for over 2 minutes without getting to the point. Defensive attitude toward past failures.
+* 1: Blames others for delays or conflicts. Zero sense of teamwork or time management.
+
+------------------------------
+Do you have a candidate's response or transcript ready for me to evaluate using this framework?
+
+[1] [https://www.youtube.com](https://www.youtube.com/watch?v=vLti4Jgb1wQ)
